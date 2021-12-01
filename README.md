@@ -16,13 +16,13 @@ login-form still flashes on refresh when user already logged in
 
 ~~Allow user to log out.~~
 
-## 5.3
+## 5.3 (way too long strugglin with a dumb bug)
 
-Allow a logged in user to create blogs.
+~~Allow a logged in user to create blogs.~~
 
-## 5.4
+## 5.4 (~30 min.)
 
-Display error and success messages to user.
+~~Display error and success messages to user.~~
 
 ## 5.5
 
