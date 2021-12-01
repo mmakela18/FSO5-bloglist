@@ -15,19 +15,21 @@ Don't fetch blogs bef
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState([null])
+  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const fetchBlogs = () => {
+    // only fetch blogs once user has been fetched
     if (user !== null) {
-      blogService.getAll().then(blogs => {
+      blogService.getAll(user.token).then(blogs => {
         setBlogs(blogs)
       })
     }
   }
 
-  useEffect(fetchBlogs, [])
+  // bind fetchBlogs to a change in user
+  useEffect(fetchBlogs, [user])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -43,15 +45,25 @@ const App = () => {
     }
   }
 
-
+  // Only display login when user not fetched
+  if(user === null) {
+    return(
+      <div>
+        <h1>Hi</h1>
+        <LoginForm username={username} setUsername={setUsername}
+          password={password} setPassword={setPassword} handleLogin={handleLogin} />
+      </div>
+    )
+  }
+  // user defined -> display blogs
   return(
     <div>
-      <h1>Hi</h1>
-      <LoginForm username={username} setUsername={setUsername}
-        password={password} setPassword={setPassword} handleLogin={handleLogin} />
+      <h2>Blogs</h2>
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+        )}
     </div>
   )
-
 /*
   return (
     <div>
