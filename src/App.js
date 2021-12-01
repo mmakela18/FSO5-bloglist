@@ -4,6 +4,7 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import PostForm from './components/PostForm'
 import { SuccessBox, FailureBox } from './components/Notification'
+import Togglable from './components/Togglable'
 // services
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -98,7 +99,9 @@ const App = () => {
       <div>
       <SuccessBox message={success} />
       <FailureBox message={failure} />
+      <Togglable buttonLabel="Add new">
         <PostForm addBlog={addBlog} />
+        </Togglable>
         <h2>Blogs</h2>
           <p>Logged in as {user.username}</p>
           <button onClick={ () => handleLogout() } >Log out</button>
@@ -114,8 +117,10 @@ const App = () => {
       <SuccessBox message={success} />
       <FailureBox message={failure} />
       <h1>Hi</h1>
-      <LoginForm username={username} setUsername={setUsername}
-        password={password} setPassword={setPassword} handleLogin={handleLogin} />
+      <Togglable buttonLabel="Login">
+        <LoginForm username={username} setUsername={setUsername}
+          password={password} setPassword={setPassword} handleLogin={handleLogin} />
+      </Togglable>
     </div>
   )
 }
