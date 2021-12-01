@@ -4,6 +4,7 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 // services
 import blogService from './services/blogs'
+import loginService from './services/login'
 
 
 /*
@@ -28,9 +29,18 @@ const App = () => {
 
   useEffect(fetchBlogs, [])
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
     console.log(`attempting login with ${username} and ${password}`)
+    try {
+      const user = await loginService.login({username, password})
+      setUser(user)
+      setUsername('')
+      setPassword('')
+      console.log(user)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
 

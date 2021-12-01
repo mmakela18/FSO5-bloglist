@@ -1,3 +1,7 @@
+# DONE
+
+Login form and git-init (40 min.)
+
 # TODO
 
 ## 5.1
