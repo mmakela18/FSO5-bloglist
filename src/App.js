@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 // components
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
+import PostForm from './components/PostForm'
 // services
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -38,6 +39,14 @@ const App = () => {
     }
   }
 
+  const addBlog = async (blogToPost) => {
+    const res = await blogService.create(blogToPost)
+    console.log(blogs)
+    console.log(res)
+    setBlogs(blogs.concat(res))
+    console.log(blogs)
+  }
+
   // bind fetchBlogs to a change in user
   useEffect(fetchBlogs, [user])
 
@@ -69,6 +78,7 @@ const App = () => {
   if(user !== null) {
     return(
       <div>
+        <PostForm addBlog={addBlog} />
         <h2>Blogs</h2>
           <p>Logged in as {user.username}</p>
           <button onClick={ () => handleLogout() } >Log out</button>
