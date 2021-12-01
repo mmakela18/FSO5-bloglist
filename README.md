@@ -1,3 +1,7 @@
+## Side-issues
+
+login-form still flashes on refresh when user already logged in
+
 # TODO
 
 ## 5.1 (~70 min.)
@@ -6,11 +10,11 @@
 
 ~~Display bloglist to a logged in user.~~
 
-## 5.2
+## 5.2 (~30 min.)
 
-Make login persistent.
+~~Make login persistent.~~
 
-Allow user to log out.
+~~Allow user to log out.~~
 
 ## 5.3
 

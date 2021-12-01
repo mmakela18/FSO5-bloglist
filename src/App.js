@@ -19,10 +19,20 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  // check if there's already a login
+  useEffect( () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const fetchBlogs = () => {
     // only fetch blogs once user has been fetched
     if (user !== null) {
-      blogService.getAll(user.token).then(blogs => {
+      blogService.getAll().then(blogs => {
         setBlogs(blogs)
       })
     }
@@ -37,6 +47,12 @@ const App = () => {
     try {
       const user = await loginService.login({username, password})
       setUser(user)
+      // store user local storage
+      window.localStorage.setItem(
+        'loggedInUser', JSON.stringify(user)
+      )
+      // save login token to blogservice
+      blogService.setToken(user.token)
       setUsername('')
       setPassword('')
       console.log(user)
@@ -45,35 +61,29 @@ const App = () => {
     }
   }
 
-  // Only display login when user not fetched
-  if(user === null) {
-    return(
-      <div>
-        <h1>Hi</h1>
-        <LoginForm username={username} setUsername={setUsername}
-          password={password} setPassword={setPassword} handleLogin={handleLogin} />
-      </div>
-    )
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setUser(null)
   }
   // user defined -> display blogs
+  if(user !== null) {
+    return(
+      <div>
+        <h2>Blogs</h2>
+          <p>Logged in as {user.username}</p>
+          <button onClick={ () => handleLogout() } >Log out</button>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+          )}
+      </div>
+  )}
+  // Only display login when user not fetched
   return(
     <div>
-      <h2>Blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-        )}
+      <h1>Hi</h1>
+      <LoginForm username={username} setUsername={setUsername}
+        password={password} setPassword={setPassword} handleLogin={handleLogin} />
     </div>
   )
-/*
-  return (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
-  )
-}
-*/
 }
 export default App
