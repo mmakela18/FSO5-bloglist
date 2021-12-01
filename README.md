@@ -1,14 +1,10 @@
-# DONE
-
-Login form and git-init (40 min.)
-
 # TODO
 
-## 5.1
+## 5.1 (~70 min.)
 
-Allow user to login. 
+~~Allow user to login.~~ 
 
-Display bloglist to a logged in user.
+~~Display bloglist to a logged in user.~~
 
 ## 5.2
 

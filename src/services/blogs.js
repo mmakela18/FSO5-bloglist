@@ -12,5 +12,8 @@ const getAll = (userToken) => {
 
   return request.then(response => response.data)
 }
+const blogsService = {
+  getAll
+}
 
-export default { getAll }
+export default blogsService
