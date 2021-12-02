@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // components
-import Blog from './components/Blog'
+import Blogs from './components/Blog'
 import LoginForm from './components/LoginForm'
 import PostForm from './components/PostForm'
 import { SuccessBox, FailureBox } from './components/Notification'
@@ -105,9 +105,7 @@ const App = () => {
         <h2>Blogs</h2>
           <p>Logged in as {user.username}</p>
           <button onClick={ () => handleLogout() } >Log out</button>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
-          )}
+          <Blogs blogs={blogs} setBlogs={setBlogs} />
       </div>
   )}
 

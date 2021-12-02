@@ -36,9 +36,9 @@ login-form still flashes on refresh when user already logged in
 
 ~~View/Hide buttons for blog listings.~~
 
-## 5.8
+## 5.8 (probably an hour total since backend wasnt ready)
 
-Add ability to like bloglistings.
+~~Add ability to like bloglistings.~~
 
 ## 5.9
 
