@@ -99,7 +99,7 @@ const App = () => {
       <div>
       <SuccessBox message={success} />
       <FailureBox message={failure} />
-      <Togglable buttonLabel="Add new">
+      <Togglable showLabel="Add new" hideLabel="Cancel">
         <PostForm addBlog={addBlog} />
       </Togglable>
         <h2>Blogs</h2>
@@ -117,7 +117,7 @@ const App = () => {
       <SuccessBox message={success} />
       <FailureBox message={failure} />
       <h1>Hi</h1>
-      <Togglable buttonLabel="Login">
+      <Togglable showLabel="Login" hideLabel="Cancel">
         <LoginForm username={username} setUsername={setUsername}
           password={password} setPassword={setPassword} handleLogin={handleLogin} />
       </Togglable>
