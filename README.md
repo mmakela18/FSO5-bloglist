@@ -32,7 +32,7 @@ login-form still flashes on refresh when user already logged in
 
 ~~Blog creation form and state to its own component.~~
 
-## 5.7 (~20 minutes. Was editing Togglable.js in wrong directory /_\ )
+## 5.7 (~20 minutes. Was editing Togglable.js in wrong directory /_\ and another 20 minutes doing it without Togglable.js)
 
 ~~View/Hide buttons for blog listings.~~
 

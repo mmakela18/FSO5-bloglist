@@ -33,9 +33,27 @@ const create = async (newBlog) => {
   }
 }
 
+const update = async(blogToUpdate) => {
+  try {
+    console.log(blogToUpdate)
+    const config = {
+      headers: {
+        'Authorization': userToken
+      }
+    }
+    console.log(config)
+    console.log(blogToUpdate.id)
+    const res = await axios.put(`${baseUrl}/${blogToUpdate.id}`, blogToUpdate, config)
+    return res
+  } catch (err) {
+    console.log(err.message)
+  }
+}
+
 const blogService = {
   getAll,
   create,
+  update,
   setToken
 }
 
