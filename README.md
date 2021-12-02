@@ -24,13 +24,13 @@ login-form still flashes on refresh when user already logged in
 
 ~~Display error and success messages to user.~~
 
-## 5.5
+## 5.5 (few minutes)
 
-Display blog creation only after button click.
+~~Display blog creation only after button click.~~
 
-## 5.6
+## 5.6 (already done from beginning)
 
-Blog creation form and state to its own component.
+~~Blog creation form and state to its own component.~~
 
 ## 5.7
 

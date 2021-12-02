@@ -101,7 +101,7 @@ const App = () => {
       <FailureBox message={failure} />
       <Togglable buttonLabel="Add new">
         <PostForm addBlog={addBlog} />
-        </Togglable>
+      </Togglable>
         <h2>Blogs</h2>
           <p>Logged in as {user.username}</p>
           <button onClick={ () => handleLogout() } >Log out</button>
