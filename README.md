@@ -1,3 +1,11 @@
+Notes :
+
+in backend-testing, should not add blogs that don't have user-defined. !! FIX !!
+
+refactor so that Blogs-components handles also Blog-states. The displaystatus state should probably be an array, so that visibility may be persistent.
+
+Also, refactor Blogs-such that components aren't defined within each other. Even this may fix the visibility issue.
+
 ## Side-issues
 
 login-form still flashes on refresh when user already logged in
