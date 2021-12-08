@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useImperativeHandle } from 'react'
 import blogService from '../services/blogs'
+import Togglable from './Togglable'
+import PostForm from './PostForm'
 
 // Only display title by default, then the rest if toggled
 // Made first with Togglable since didn't read the exercise completely
@@ -7,7 +9,7 @@ const incrementLikes = (blog, blogs, setBlogs) => {
   console.log(blog)
   const newLikes = blog.likes + 1
   // new blog-object
-  const updatedBlog = {...blog, likes: newLikes}
+  const updatedBlog = { ...blog, likes: newLikes }
   blogService.update(updatedBlog)
   // still need to update local blogs
   const newBlogs = blogs.map(
@@ -20,7 +22,7 @@ const incrementLikes = (blog, blogs, setBlogs) => {
   )
   setBlogs(newBlogs)
 }
-const BlogInfo = ({blog, blogs, setBlogs}) => {
+const BlogInfo = ({ blog, blogs, setBlogs }) => {
   return(
     <div key={`im beggin ${blog.id}`}>
       <p key={`beggin ${blog.id}`}>Author: {blog.author}</p>
@@ -31,7 +33,7 @@ const BlogInfo = ({blog, blogs, setBlogs}) => {
     </div>
   )
 }
-const SingleBlog = ({blog, blogs, setBlogs}) => {
+const SingleBlog = ({ blog, blogs, setBlogs }) => {
   const [displayInfo, setDisplayInfo] = useState(false)
   const onClick = () => setDisplayInfo(!displayInfo)
   const blogStyle = {
@@ -50,10 +52,10 @@ const SingleBlog = ({blog, blogs, setBlogs}) => {
         {blog.title}
       </div>
       { displayInfo ? <BlogInfo key={`pls ${key}`} blog={blog} blogs={blogs} setBlogs={setBlogs}/> : ''}
-    </div>  
-)}
+    </div>
+  )}
 // Components needs: all blogs and set function
-const Blogs = React.forwardRef((props, ref) => { 
+const Blogs = React.forwardRef((props, ref) => {
   const [blogs, setBlogs] = useState([{}])
   const fetchBlogs = () => {
     blogService.getAll().then(blogs => {
@@ -70,16 +72,22 @@ const Blogs = React.forwardRef((props, ref) => {
     }
   }
   useImperativeHandle(ref, () => {
+    console.log('imperative handle here')
     return {
       addBlog
     }
   })
 
   return(
-    blogs.map(blog =>
-      <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>
-    )
+    <div>
+      {blogs.map(blog => <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>)}
+      <Togglable key='PostFormTogglable' showLabel="Add new" hideLabel="Cancel">
+        <PostForm key='PostForm' addBlog={addBlog} />
+      </Togglable>
+    </div>
   )
 })
+
+Blogs.displayName = 'Blogs'
 
 export default Blogs

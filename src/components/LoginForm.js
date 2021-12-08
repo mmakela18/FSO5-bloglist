@@ -5,10 +5,10 @@ const LoginForm = ({
   setUsername, // setState function
   password, // string state
   setPassword, // setState function
-  handleLogin}) => // function to handle login 
-   { 
-    return(
-      <>
+  handleLogin }) => // function to handle login
+{
+  return(
+    <>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -23,8 +23,8 @@ const LoginForm = ({
         </div>
         <button type="submit">Login</button>
       </form>
-      </>
-    )
+    </>
+  )
 }
 
 export default LoginForm

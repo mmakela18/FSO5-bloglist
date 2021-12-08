@@ -1,7 +1,7 @@
 import React, { useState }from 'react'
 
 // state 'blogs' and its state function as arguments
-const PostForm = ({addBlog}) => {
+const PostForm = ({ addBlog }) => {
   // states for different fields
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -11,6 +11,7 @@ const PostForm = ({addBlog}) => {
       title: title,
       author: author
     }
+    console.log(addBlog)
     addBlog(blogToPost)
     // append blogs with response
     setTitle('')
@@ -22,11 +23,11 @@ const PostForm = ({addBlog}) => {
       <form onSubmit={handlePost}>
         <div>
         Title
-        <input type="text" onChange={({target}) => setTitle(target.value) }></input>
+          <input type="text" onChange={({ target }) => setTitle(target.value) }></input>
         </div>
         <div>
         Author
-        <input type="text" onChange={({target}) => setAuthor(target.value)}></input>
+          <input type="text" onChange={({ target }) => setAuthor(target.value)}></input>
         </div>
         <button type="submit">Submit</button>
       </form>
