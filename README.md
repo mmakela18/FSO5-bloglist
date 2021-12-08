@@ -3,7 +3,6 @@ Notes :
 Was previously able to pass addBlogs from Blog.js through ref to PostForm.js, but after lint and debugging it no longer works. ref.current doesn't get defined, but there is some other ref.current in there that DOES hold the function. So ref.current can be simultaneously defined and undefined. "Solved" by rendering PostForm within Blogs.
 
 There is not one single element in Blog.js without a unique key, yet I'm still getting a warning. Damn I wish the warning would tell me where exactly the error is, but no.
-
 Call-stack is of absolutely no help. Always a different line in either main.chunk.js or bundle.js in the static/js directory.
 
 ## Side-issues

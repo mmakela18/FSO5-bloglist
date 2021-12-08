@@ -57,10 +57,9 @@ const SingleBlog = ({ blog, blogs, setBlogs }) => {
 // Components needs: all blogs and set function
 const Blogs = React.forwardRef((props, ref) => {
   const [blogs, setBlogs] = useState([{}])
-  const fetchBlogs = () => {
-    blogService.getAll().then(blogs => {
-      setBlogs(blogs)
-    })
+  const fetchBlogs = async () => {
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
   }
   useEffect(fetchBlogs, [])
   const addBlog = async (blogToPost) => {
@@ -80,7 +79,8 @@ const Blogs = React.forwardRef((props, ref) => {
 
   return(
     <div>
-      {blogs.map(blog => <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>)}
+      {blogs.sort( (a, b) => (b.likes - a.likes))
+        .map(blog => <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>)}
       <Togglable key='PostFormTogglable' showLabel="Add new" hideLabel="Cancel">
         <PostForm key='PostForm' addBlog={addBlog} />
       </Togglable>
