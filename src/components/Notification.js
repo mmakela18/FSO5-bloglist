@@ -1,28 +1,15 @@
 import React from 'react'
 
-const SuccessBox = ({message}) => {
-  if (message === null) {
+// Show a notification, with or without classname
+const NotificationBox = ({msg, msgClass}) => {
+  if (msg === null) {
     return null
   }
   return(
-    <div className="success">
-      {message}
+    <div className={`${msgClass}`}>
+      {msg}
     </div>
   )
 }
 
-const FailureBox = ({message}) => {
-  if (message === null) {
-    return null
-  }
-  return(
-    <div className="failure">
-      {message}
-    </div>
-  )
-}
-
-export {
-  SuccessBox,
-  FailureBox
-}
+export default NotificationBox

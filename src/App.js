@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 // components
 import Blogs from './components/Blog'
 import LoginForm from './components/LoginForm'
 import PostForm from './components/PostForm'
-import { SuccessBox, FailureBox } from './components/Notification'
+import NotificationBox from './components/Notification'
 import Togglable from './components/Togglable'
 // services
 import blogService from './services/blogs'
@@ -14,7 +14,6 @@ const MSG_TIMEOUT = 5000
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -38,52 +37,40 @@ const App = () => {
   useEffect( () => {
     const loggedUserJSON = window.localStorage.getItem('loggedInUser')
     if (loggedUserJSON) {
+      try {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
+      } catch (err) {
+        console.log(err.message)
+      }
     }
   }, [])
-
-  const fetchBlogs = () => {
-    // only fetch blogs once user has been fetched
-    if (user !== null) {
-      blogService.getAll().then(blogs => {
-        setBlogs(blogs)
-      })
-    }
-  }
-
-  const addBlog = async (blogToPost) => {
-    try {
-      const res = await blogService.create(blogToPost)
-      setBlogs(blogs.concat(res))
-      displaySuccess("Blog added successfully")
-    } catch(err) {
-      displayFailure("Invalid credentials")
-    }
-  }
-
-  // bind fetchBlogs to a change in user
-  useEffect(fetchBlogs, [user])
 
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log(`attempting login with ${username} and ${password}`)
     try {
       const user = await loginService.login({username, password})
-      setUser(user)
-      // store user local storage
-      window.localStorage.setItem(
-        'loggedInUser', JSON.stringify(user)
-      )
-      // save login token to blogservice
-      blogService.setToken(user.token)
+      if (user !== null) {
+        setUser(user)
+        // store user local storage
+        window.localStorage.setItem(
+          'loggedInUser', JSON.stringify(user)
+        )
+        // save login token to blogservice
+        blogService.setToken(user.token)
+      }
       setUsername('')
       setPassword('')
       // display success
       displaySuccess(`Login successfull. Welcome ${user.username}`)
     } catch (err) {
-      displayFailure("Invalid credentials.")
+      if (err.message === 'user is null') {
+        displayFailure("Invalid credentials.")
+      } else {
+        displayFailure(err.message)
+      }
     }
   }
 
@@ -92,28 +79,30 @@ const App = () => {
     setUser(null)
     displaySuccess("Logged out successfully.")
   }
+  
+  const blogsRef = useRef()
 
   // user defined -> display blogs
   if(user !== null) {
     return(
       <div>
-      <SuccessBox message={success} />
-      <FailureBox message={failure} />
-      <Togglable showLabel="Add new" hideLabel="Cancel">
-        <PostForm addBlog={addBlog} />
-      </Togglable>
+      <NotificationBox key='success' msg={success} msgClass='success'/>
+      <NotificationBox key='failure' msg={failure} msgClass='failure' />
         <h2>Blogs</h2>
           <p>Logged in as {user.username}</p>
           <button onClick={ () => handleLogout() } >Log out</button>
-          <Blogs blogs={blogs} setBlogs={setBlogs} />
+          <Blogs ref={blogsRef}/>
+      <Togglable showLabel="Add new" hideLabel="Cancel">
+        <PostForm key='PostForm' addBlog={blogsRef.addBlog} />
+      </Togglable>
       </div>
   )}
 
   // Only display login when user not fetched
   return(
     <div>
-      <SuccessBox message={success} />
-      <FailureBox message={failure} />
+      <NotificationBox key='loginSuccess' msg={success} msgClass='success'/>
+      <NotificationBox key='loginFailure' msg={failure} msgClass='failure'/>
       <h1>Hi</h1>
       <Togglable showLabel="Login" hideLabel="Cancel">
         <LoginForm username={username} setUsername={setUsername}

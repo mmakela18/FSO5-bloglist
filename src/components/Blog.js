@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useImperativeHandle } from 'react'
 import blogService from '../services/blogs'
 
 // Only display title by default, then the rest if toggled
@@ -22,12 +22,12 @@ const incrementLikes = (blog, blogs, setBlogs) => {
 }
 const BlogInfo = ({blog, blogs, setBlogs}) => {
   return(
-    <div>
-      <p>Author: {blog.author}</p>
-      <p>Title: {blog.title}</p>
-      <p>Likes: {blog.likes}</p>
-      <button onClick={() => incrementLikes(blog, blogs, setBlogs)}>Like</button>
-      <p>URL: {blog.url}</p>
+    <div key={`im beggin ${blog.id}`}>
+      <p key={`beggin ${blog.id}`}>Author: {blog.author}</p>
+      <p key={`youu ${blog.id}`}>Title: {blog.title}</p>
+      <p key={`plsease ${blog.id}`}>Likes: {blog.likes}</p>
+      <button key={`whyyyy ${blogs.id}`} onClick={() => incrementLikes(blog, blogs, setBlogs)}>Like</button>
+      <p key={`beegin youuuu ${blogs.id}`}>URL: {blog.url}</p>
     </div>
   )
 }
@@ -41,21 +41,45 @@ const SingleBlog = ({blog, blogs, setBlogs}) => {
     borderWidth: 1,
     marginBottom: 5
   }
+  // Generate a kind of unique key to silence warnings
+  // Since there can only be only BlogInfo child per SingleBlog this shouldn't be that bad
+  const key = `${blog.id} BlogInfo`
   return(
-    <div style={blogStyle}>
-      <div onClick={ onClick }>
+    <div key={key} style={blogStyle}>
+      <div key={`cmon ${key}`} onClick={ onClick }>
         {blog.title}
       </div>
-      { displayInfo ? <BlogInfo blog={blog} blogs={blogs} setBlogs={setBlogs}/> : ''}
+      { displayInfo ? <BlogInfo key={`pls ${key}`} blog={blog} blogs={blogs} setBlogs={setBlogs}/> : ''}
     </div>  
 )}
 // Components needs: all blogs and set function
-const Blogs = ({blogs, setBlogs}) => { 
+const Blogs = React.forwardRef((props, ref) => { 
+  const [blogs, setBlogs] = useState([{}])
+  const fetchBlogs = () => {
+    blogService.getAll().then(blogs => {
+      setBlogs(blogs)
+    })
+  }
+  useEffect(fetchBlogs, [])
+  const addBlog = async (blogToPost) => {
+    try {
+      const res = await blogService.create(blogToPost)
+      setBlogs(blogs.concat(res))
+    } catch(err) {
+      console.log(err.message)
+    }
+  }
+  useImperativeHandle(ref, () => {
+    return {
+      addBlog
+    }
+  })
+
   return(
     blogs.map(blog =>
       <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>
     )
   )
-}
+})
 
 export default Blogs

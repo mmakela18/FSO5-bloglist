@@ -1,10 +1,8 @@
 Notes :
 
-in backend-testing, should not add blogs that don't have user-defined. !! FIX !!
+When PostForm depends on a reference, but the reference isn't available before Blogs is rendered, how do I make PostForm appear on top of Blogs?
 
-refactor so that Blogs-components handles also Blog-states. The displaystatus state should probably be an array, so that visibility may be persistent.
-
-Also, refactor Blogs-such that components aren't defined within each other. Even this may fix the visibility issue.
+There is not one single element in Blog.js without a unique key, yet I'm still getting a warning. Damn I wish the warning would tell me where exactly the error is, but no.
 
 ## Side-issues
 
