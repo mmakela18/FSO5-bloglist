@@ -33,7 +33,7 @@ const BlogInfo = ({ blog, blogs, setBlogs }) => {
     </div>
   )
 }
-const SingleBlog = ({ blog, blogs, setBlogs }) => {
+const SingleBlog = ({ blog, blogs, setBlogs, removeBlog }) => {
   const [displayInfo, setDisplayInfo] = useState(false)
   const onClick = () => setDisplayInfo(!displayInfo)
   const blogStyle = {
@@ -52,6 +52,7 @@ const SingleBlog = ({ blog, blogs, setBlogs }) => {
         {blog.title}
       </div>
       { displayInfo ? <BlogInfo key={`pls ${key}`} blog={blog} blogs={blogs} setBlogs={setBlogs}/> : ''}
+      <button onClick={() => removeBlog(blog)}>Delete</button>
     </div>
   )}
 // Components needs: all blogs and set function
@@ -76,11 +77,15 @@ const Blogs = React.forwardRef((props, ref) => {
       addBlog
     }
   })
-
+  const removeBlog = async (blogToRemove) => {
+    const res = await blogService.remove(blogToRemove)
+    console.log(res)
+    setBlogs(blogs.filter( (blog) => blog.id !== blogToRemove.id))
+  }
   return(
     <div>
       {blogs.sort( (a, b) => (b.likes - a.likes))
-        .map(blog => <SingleBlog key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>)}
+        .map(blog => <SingleBlog removeBlog={removeBlog} key={blog.id} setBlogs={setBlogs} blog={blog} blogs={blogs}/>)}
       <Togglable key='PostFormTogglable' showLabel="Add new" hideLabel="Cancel">
         <PostForm key='PostForm' addBlog={addBlog} />
       </Togglable>

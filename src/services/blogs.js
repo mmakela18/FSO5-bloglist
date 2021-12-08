@@ -50,10 +50,26 @@ const update = async(blogToUpdate) => {
   }
 }
 
+const remove = async(blogToDelete) => {
+  try {
+    console.log(`removing ${blogToDelete.id}`)
+    const config = {
+      headers: {
+        'Authorization': userToken
+      }
+    }
+    const res = await axios.delete(`${baseUrl}/${blogToDelete.id}`, config)
+    return res
+  } catch (err) {
+    console.log(err.message)
+  }
+}
+
 const blogService = {
   getAll,
   create,
   update,
+  remove,
   setToken
 }
 
